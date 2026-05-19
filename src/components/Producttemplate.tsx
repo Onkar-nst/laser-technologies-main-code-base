@@ -1049,7 +1049,8 @@ function Producttemplate(): JSX.Element {
           {cuttingSamples.length > 0 && (
             <section ref={(el) => (sectionRefs.current["samples"] = el || null)} data-section="samples" id="samples" className="bg-white border border-gray-200 shadow-sm">
               <div className="p-8 border-b border-gray-100">
-                <h2 className="text-4xl font-medium text-gray-900 mb-2">{product.subcategory} : Cutting Samples</h2>
+                {/* <h2 className="text-4xl font-medium text-gray-900 mb-2">{product.subcategory} : Cutting Samples</h2> */}
+                <h2 className="text-4xl font-medium text-gray-900 mb-2">Cutting Samples</h2>
                 <p className="text-gray-600">View our sample gallery</p>
               </div>
               <div className="p-8">

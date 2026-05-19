@@ -255,7 +255,7 @@ const BlogTemplate: React.FC = () => {
             <img
               src={blog.image}
               alt={blog.title}
-              className="w-full h-full object-cover object-top transform group-hover:scale-105 transition-transform duration-500"
+              className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
               loading="eager"
             />
             {/* Click to expand hint */}

@@ -1,5 +1,5 @@
 import { Suspense, lazy ,useEffect } from "react";
-import { BrowserRouter, Routes, Route ,useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route ,useLocation, Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Chatbot from "./components/Chatbot";
@@ -42,42 +42,62 @@ const CustomerStoriesTemplate = lazy(() => import("./pages/CustomerStoriesTempla
 const NotFound = lazy(() => import("./pages/NotFound"));
 // const SlugResolver = lazy(() => import("./components/SlugResolver"));
 
+// Ads pages (standalone, no main site navbar/footer)
+const LaserCuttingAdsPage = lazy(() => import("./ads/LaserCuttingAdsPage"));
+
+/** Layout wrapper for main website routes — includes Navbar, Footer, and Chatbot */
+function MainLayout() {
+  return (
+    <>
+      <Navbar />
+      <Suspense fallback={<LoadingSpinner />}>
+        <Outlet />
+      </Suspense>
+      <Chatbot />
+      <Footer />
+    </>
+  );
+}
+
 function App() {
   return (
     <BrowserRouter>
     <AnalyticsTracker />
-      <Navbar />
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:id" element={<Producttemplate />} />
-          <Route path="/blog/:id" element={<Blogtemplate />} />
-          <Route path="/laser-university" element={<KnowledgeBase />} />
-          <Route path="/products/:segment/:subcategory" element={<ProductListingPage />} />
-          <Route path="/awards" element={<AwardsPage />} />
-          <Route path="/careers" element={<Careers />} />
-          <Route path="/news" element={<Posts />} />
-          <Route path="/csr" element={<Posts />} />
-          <Route path="/articles" element={<Posts />} />
-          <Route path="/about/company" element={<About />} />
-          <Route path="/about/milestone" element={<Milestone />} />
-          <Route path="/laserGurukul" element={<LaserGurukul />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/partners" element={<Partners />} />
-          <Route path="/about/leadership" element={<OurLeadership />} />
-          <Route path="/services/tech-support" element={<TechSupport />} />
-          <Route path="/services/software" element={<Software />} />
-          <Route path="/services/faqs" element={<FAQ />} />
-          <Route path="/services/out-of-warranty" element={<OutOfWarranty />} />
-          <Route path="/services/technical-training" element={<TechnicalTraining />} />
-          <Route path="/customer-stories" element={<CustomerStories />} />
-          <Route path="/customer-stories/:slug" element={<CustomerStoriesTemplate />} />
-          {/* <Route path="/:slug" element={<SlugResolver />} />  */}
-          <Route path="*" element={<NotFound />} />
+          {/* ─── Ads routes (no main Navbar / Footer) ─── */}
+          <Route path="/ads" element={<LaserCuttingAdsPage />} />
+
+          {/* ─── Main website routes (with Navbar + Footer) ─── */}
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:id" element={<Producttemplate />} />
+            <Route path="/blog/:id" element={<Blogtemplate />} />
+            <Route path="/laser-university" element={<KnowledgeBase />} />
+            <Route path="/products/:segment/:subcategory" element={<ProductListingPage />} />
+            <Route path="/awards" element={<AwardsPage />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/news" element={<Posts />} />
+            <Route path="/csr" element={<Posts />} />
+            <Route path="/articles" element={<Posts />} />
+            <Route path="/about/company" element={<About />} />
+            <Route path="/about/milestone" element={<Milestone />} />
+            <Route path="/laserGurukul" element={<LaserGurukul />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/partners" element={<Partners />} />
+            <Route path="/about/leadership" element={<OurLeadership />} />
+            <Route path="/services/tech-support" element={<TechSupport />} />
+            <Route path="/services/software" element={<Software />} />
+            <Route path="/services/faqs" element={<FAQ />} />
+            <Route path="/services/out-of-warranty" element={<OutOfWarranty />} />
+            <Route path="/services/technical-training" element={<TechnicalTraining />} />
+            <Route path="/customer-stories" element={<CustomerStories />} />
+            <Route path="/customer-stories/:slug" element={<CustomerStoriesTemplate />} />
+            {/* <Route path="/:slug" element={<SlugResolver />} />  */}
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Routes>
       </Suspense>
-      <Chatbot />
-      <Footer />
     </BrowserRouter>
   );
 }
